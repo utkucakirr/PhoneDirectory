@@ -15,17 +15,17 @@ namespace Business.Concrete
     public class PersonManager:IPersonService
     {
         private IPersonDal _personDal;
-        private IPersonDalNew _personDalNew;
+        //private IPersonDalNew _personDalNew;
 
         public PersonManager(IPersonDal personDal)
         {
             _personDal = personDal;
         }
 
-        public PersonManager(IPersonDalNew personDal)
-        {
-            _personDalNew = personDal;
-        }
+        //public PersonManager(IPersonDalNew personDal)
+        //{
+        //    _personDalNew = personDal;
+        //}
 
         public IResult Add(Person person)
         {
@@ -35,7 +35,7 @@ namespace Business.Concrete
             //var result2 = CheckIfNumberExists(person);
             if (results.IsValid )//&& !result &&!result2)
             {
-                _personDalNew.Add(person.PersonName,person.PersonSurname,person.Number);
+                _personDal.Add(person);
                 return new Result(true, "Person added!");
             }
             //foreach (var failure in results.Errors)
@@ -53,13 +53,13 @@ namespace Business.Concrete
             //var result2 = CheckIfNumberExists(person);
             if (results.IsValid)// && !result && !result2)
             {
-                _personDalNew.Update(person.PersonId,person.PersonName,person.PersonSurname,person.Number);
+                _personDal.Update(person);
                 return new Result(true, "Person updated!");
             }
-            foreach (var failure in results.Errors)
-            {
-                Console.WriteLine(failure.ErrorMessage);
-            }
+            //foreach (var failure in results.Errors)
+            //{
+            //    Console.WriteLine(failure.ErrorMessage);
+            //}
             return new Result(false, "The person or number you are trying to add is already exists.");
         }
 
@@ -67,7 +67,7 @@ namespace Business.Concrete
         {
             try
             {
-                _personDalNew.Delete(person.PersonId);
+                _personDal.Delete(person);
 
                 return new Result(true, "Person deleted.");
             }
@@ -81,7 +81,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Person>> GetAll()
         {
-            return new SuccessDataResult<List<Person>>(_personDalNew.GetAll(), "Persons listed successfully");
+            return new SuccessDataResult<List<Person>>(_personDal.GetAll(), "Persons listed successfully");
         }
 
         public IDataResult<List<Person>> GetByName(string name)
@@ -109,7 +109,7 @@ namespace Business.Concrete
 
         public List<Person> GetPersons()
         {
-            return _personDalNew.GetAll();
+            return _personDal.GetAll();
         }
 
         private bool CheckIfPersonExists(Person person)

@@ -30,8 +30,8 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IPersonService, PersonManager>();
-            //services.AddSingleton<IPersonDal, EfPersonDal>();
-            services.AddSingleton<IPersonDalNew, SpPersonDal>();
+            services.AddSingleton<IPersonDal, SpPersonDalNew>();
+            //services.AddSingleton<IPersonDalNew, SpPersonDal>();
             services.AddControllers(); 
             
 
